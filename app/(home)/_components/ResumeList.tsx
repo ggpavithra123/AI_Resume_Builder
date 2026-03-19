@@ -4,22 +4,24 @@ import { Loader, RotateCw } from "lucide-react";
 import React, { Fragment } from "react";
 import ResumeItem from "./common/ResumeItem";
 
+type Resume = {
+  documentId: string;
+  title?: string;
+  status?: string;
+  updatedAt?: string;
+  themeColor?: string;
+  thumbnail?: string;
+};
+
 const ResumeList = () => {
   const { data, isLoading, isError, refetch } = useGetDocuments();
-  const resumes = data?.data ?? [];
+  const resumes: Resume[] = data?.data ?? [];
+
   return (
     <Fragment>
       {isLoading ? (
-        <div
-          className="
-    flex items-center mx-5"
-        >
-          <Loader
-            className="animate-spin text-black
-     dark:text-white
-     size-10
-     "
-          />
+        <div className="flex items-center mx-5">
+          <Loader className="animate-spin text-black dark:text-white size-10" />
         </div>
       ) : isError ? (
         <div className="flex flex-col items-center mx-5">
@@ -30,7 +32,7 @@ const ResumeList = () => {
         </div>
       ) : (
         <>
-          {resumes?.map((resume) => (
+          {resumes.map((resume) => (
             <ResumeItem
               key={resume.documentId}
               documentId={resume.documentId}
