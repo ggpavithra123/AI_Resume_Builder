@@ -5,11 +5,11 @@ import { Loader, RotateCw } from "lucide-react";
 import React, { Fragment } from "react";
 import ResumeItem from "./common/ResumeItem";
 
-// Define the Resume type
+// Define Resume type with strict status
 type Resume = {
   documentId: string;
   title?: string;
-  status?: string;
+  status?: "archived" | "private" | "public";
   updatedAt?: string;
   themeColor?: string;
   thumbnail?: string;
@@ -39,7 +39,7 @@ const ResumeList = () => {
               key={resume.documentId}
               documentId={resume.documentId}
               title={resume.title ?? ""}
-              status={resume.status ?? ""}
+              status={resume.status ?? "public"} // valid default
               updatedAt={resume.updatedAt ?? ""}
               themeColor={resume.themeColor ?? ""}
               thumbnail={resume.thumbnail ?? ""}
