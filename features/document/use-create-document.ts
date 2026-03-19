@@ -1,23 +1,25 @@
 "use client";
+
 import { toast } from "@/hooks/use-toast";
 import { api } from "@/lib/hono-rpc";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { InferRequestType, InferResponseType } from "hono";
-
-type ResponseType = InferResponseType<typeof api.document.create.$post>;
-type RequestType = InferRequestType<typeof api.document.create.$post>["json"];
+import type { DocumentCreateRequest, DocumentCreateResponse } from "@/types/api";
 
 const useCreateDocument = () => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<ResponseType, Error, RequestType>({
+  return useMutation<DocumentCreateResponse, Error, DocumentCreateRequest>({
     mutationFn: async (json) => {
-      const response = await api.document.create.$post({ json });
-      return await response.json();
+      // api.document.create.$post is already typed
+      return api.document.create.$post({ json });
     },
     onSuccess: (response) => {
-      console.log(response);
+      console.log("Document created:", response);
       queryClient.invalidateQueries({ queryKey: ["documents"] });
+      toast({
+        title: "Success",
+        description: `Document "${response.title}" created successfully`,
+      });
     },
     onError: () => {
       toast({
@@ -27,8 +29,6 @@ const useCreateDocument = () => {
       });
     },
   });
-
-  return mutation;
 };
 
 export default useCreateDocument;
