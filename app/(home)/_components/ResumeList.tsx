@@ -1,9 +1,11 @@
 "use client";
+
 import useGetDocuments from "@/features/document/use-get-document";
 import { Loader, RotateCw } from "lucide-react";
 import React, { Fragment } from "react";
 import ResumeItem from "./common/ResumeItem";
 
+// Define the Resume type
 type Resume = {
   documentId: string;
   title?: string;
@@ -36,11 +38,11 @@ const ResumeList = () => {
             <ResumeItem
               key={resume.documentId}
               documentId={resume.documentId}
-              title={resume.title}
-              status={resume.status}
-              updatedAt={resume.updatedAt}
-              themeColor={resume.themeColor}
-              thumbnail={resume.thumbnail}
+              title={resume.title ?? ""}
+              status={resume.status ?? ""}
+              updatedAt={resume.updatedAt ?? ""}
+              themeColor={resume.themeColor ?? ""}
+              thumbnail={resume.thumbnail ?? ""}
             />
           ))}
         </>
